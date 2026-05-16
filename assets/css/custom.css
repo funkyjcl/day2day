@@ -5,6 +5,17 @@ img {
   box-shadow: none;
 }
 
+figure {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+figure img {
+  width: 100%;
+  margin: 0;
+}
+
 .terminal-nav nav ul li + li::before {
   content: "—";
   margin-right: 1em;
