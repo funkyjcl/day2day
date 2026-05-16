@@ -1,0 +1,31 @@
+baseURL = "https://day2day.example.com/"
+title = "day2day"
+theme = "shibui"
+locale = "fr"
+
+enableInlineShortcodes = true
+
+[params.author]
+    name = "JayCee Parker"
+    email = "jclebreton@me.com"
+
+[params]
+    comments = false
+    showreadingtime = false
+
+[menu]
+  [[menu.main]]
+    name = "posts"
+    url = "/posts/"
+    weight = 1
+  [[menu.main]]
+    name = "about"
+    url = "/about/"
+    weight = 2
+
+[permalinks]
+  posts = "/:year/:month/:day/:slug/"
+
+[markup.goldmark.renderer]
+  # Permet le HTML inline dans le Markdown (légendes, etc.)
+  unsafe = true

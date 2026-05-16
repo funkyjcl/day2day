@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  {{ if not .IsHome }}
+    <div class="terminal-nav">
+      <div class="back-nav">
+        <a href="{{ "/" | relURL }}" class="back-link">../</a>
+      </div>
+    </div>
+  {{ end }}
+{{ end }}

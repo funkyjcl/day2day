@@ -1,0 +1,23 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+
+  {{ .Content }}
+  <div class="time">
+    {{ partial "date.html" .Date }}
+  </div>
+
+  <div class="terminal-nav post-terminal-nav">
+    <div class="back-nav">
+      <a href="{{ "/" | relURL }}" class="back-link">../</a>
+    </div>
+    <div class="post-nav">
+      {{ with .PrevInSection }}
+        <a href="{{ .RelPermalink }}">&lt;</a>
+      {{ end }}
+      {{ with .NextInSection }}
+        <a href="{{ .RelPermalink }}">&gt;</a>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}

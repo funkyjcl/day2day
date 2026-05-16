@@ -1,0 +1,3 @@
+{{ $posts := where .Site.RegularPages "Section" "posts" }}
+{{ $latest := first 1 $posts.ByDate.Reverse }}
+{{ range $latest }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}
