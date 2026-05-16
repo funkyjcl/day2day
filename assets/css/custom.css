@@ -5,6 +5,10 @@ img {
   box-shadow: none;
 }
 
+main {
+  min-width: 0;
+}
+
 figure {
   width: 100%;
   margin: 0;
