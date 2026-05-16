@@ -5,8 +5,13 @@ img {
   box-shadow: none;
 }
 
+body {
+  grid-template-columns: minmax(0, var(--container-width));
+}
+
 main {
   min-width: 0;
+  width: 100%;
 }
 
 figure {
