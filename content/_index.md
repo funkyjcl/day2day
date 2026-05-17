@@ -9,4 +9,4 @@ Dernier post : {{< dernier-post >}}
 
 Bonne lecture !
 
-![](/images/DSCF0861.jpg)
+![](/images/DSCF2913.jpg)
