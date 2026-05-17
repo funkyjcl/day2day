@@ -2,54 +2,54 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>day2day</title>
-    <link>http://localhost:1314/</link>
+    <link>https://day2day.example.com/</link>
     <description>Recent content on day2day</description>
     <generator>Hugo</generator>
     <language>fr</language>
     <managingEditor>jclebreton@me.com (JayCee Parker)</managingEditor>
     <webMaster>jclebreton@me.com (JayCee Parker)</webMaster>
     <lastBuildDate>Sat, 16 May 2026 18:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1314/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://day2day.example.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Découverte : Ambrose Akinmusire</title>
-      <link>http://localhost:1314/2026/05/16/d%C3%A9couverte-ambrose-akinmusire/</link>
+      <link>https://day2day.example.com/2026/05/16/d%C3%A9couverte-ambrose-akinmusire/</link>
       <pubDate>Sat, 16 May 2026 18:00:00 +0000</pubDate><author>jclebreton@me.com (JayCee Parker)</author>
-      <guid>http://localhost:1314/2026/05/16/d%C3%A9couverte-ambrose-akinmusire/</guid>
-      <description>&lt;p&gt;J&amp;rsquo;ai découvert cet artiste en visionnant sur Youtube une &lt;a href=&#34;https://www.youtube.com/watch?v=eyzEBjc-6DA&#34;&gt;vidéo de Flea&lt;/a&gt; (le bassiste des Red Hot Chili Peppers) donner une liste de quelques albums qui l&amp;rsquo;avaient plus ou moins récemment marqués.&#xA;Je trouve cela vraiment pas mal.&lt;/p&gt;&#xA;&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;Ambrose-Akinmusire-honey-from-a-winter-stone.webp&#34;&#xA;    alt=&#34;&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;&#xA;      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/eyzEBjc-6DA?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;&gt;&lt;/iframe&gt;&#xA;    &lt;/div&gt;</description>
+      <guid>https://day2day.example.com/2026/05/16/d%C3%A9couverte-ambrose-akinmusire/</guid>
+      <description>&lt;p&gt;J&amp;rsquo;ai découvert cet artiste en visionnant sur Youtube une &lt;a href=&#34;https://www.youtube.com/watch?v=eyzEBjc-6DA&#34;&gt;vidéo de Flea&lt;/a&gt; (le bassiste des Red Hot Chili Peppers) donner une liste de quelques albums qui l&amp;rsquo;avaient plus ou moins récemment marqués.&#xA;Je trouve cela vraiment pas mal.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;Ambrose-Akinmusire-honey-from-a-winter-stone.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;&#xA;      &lt;iframe allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen&#34; loading=&#34;eager&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; src=&#34;https://www.youtube.com/embed/eyzEBjc-6DA?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; title=&#34;YouTube video&#34;&gt;&lt;/iframe&gt;&#xA;    &lt;/div&gt;</description>
     </item>
     <item>
       <title>Paris un vendredi</title>
-      <link>http://localhost:1314/2026/05/16/paris-un-vendredi/</link>
+      <link>https://day2day.example.com/2026/05/16/paris-un-vendredi/</link>
       <pubDate>Sat, 16 May 2026 00:00:00 +0000</pubDate><author>jclebreton@me.com (JayCee Parker)</author>
-      <guid>http://localhost:1314/2026/05/16/paris-un-vendredi/</guid>
-      <description>&lt;p&gt;Une série de photos prises un jour de congé dans Paris.&lt;/p&gt;&#xA;&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF3036.jpg&#34;&#xA;    alt=&#34;&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF2936.jpg&#34;&#xA;    alt=&#34;&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF2989.jpg&#34;&#xA;    alt=&#34;&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF3006.jpg&#34;&#xA;    alt=&#34;&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF3021.jpg&#34;&#xA;    alt=&#34;&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&lt;/figure&gt;&#xA;&lt;/p&gt;</description>
+      <guid>https://day2day.example.com/2026/05/16/paris-un-vendredi/</guid>
+      <description>&lt;p&gt;Une série de photos prises un jour de congé dans Paris.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;DSCF3036.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;DSCF2936.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;DSCF2989.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;DSCF3006.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;DSCF3021.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Ombres sur la ville</title>
-      <link>http://localhost:1314/2026/05/15/ombres-sur-la-ville/</link>
+      <link>https://day2day.example.com/2026/05/15/ombres-sur-la-ville/</link>
       <pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><author>jclebreton@me.com (JayCee Parker)</author>
-      <guid>http://localhost:1314/2026/05/15/ombres-sur-la-ville/</guid>
-      <description>&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF3006.jpg&#34;&#xA;    alt=&#34;&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;Rester planter là le temps que les éléments s&amp;rsquo;alignent correctement. Le temps qui passe surprend les gens qui me regardent, immobile.&lt;/p&gt;</description>
+      <guid>https://day2day.example.com/2026/05/15/ombres-sur-la-ville/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;DSCF3006.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;Rester planter là le temps que les éléments s&amp;rsquo;alignent correctement. Le temps qui passe surprend les gens qui me regardent, immobile.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Quai de Seine</title>
-      <link>http://localhost:1314/2026/05/15/quai-de-seine/</link>
+      <link>https://day2day.example.com/2026/05/15/quai-de-seine/</link>
       <pubDate>Fri, 15 May 2026 00:00:00 +0000</pubDate><author>jclebreton@me.com (JayCee Parker)</author>
-      <guid>http://localhost:1314/2026/05/15/quai-de-seine/</guid>
-      <description>&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF2989.jpg&#34;&#xA;    alt=&#34;Quai de Seine&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&#xA;  &lt;figcaption&gt;Quai de Seine&lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;Je me rends compte que la photo de rue est bien plus compliquée maintenant que tout le monde a les yeux baissés sur son téléphone.&lt;/p&gt;</description>
+      <guid>https://day2day.example.com/2026/05/15/quai-de-seine/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;DSCF2989.jpg&#34; alt=&#34;Quai de Seine&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;Je me rends compte que la photo de rue est bien plus compliquée maintenant que tout le monde a les yeux baissés sur son téléphone.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Sans titre</title>
-      <link>http://localhost:1314/2026/05/14/sans-titre/</link>
+      <link>https://day2day.example.com/2026/05/14/sans-titre/</link>
       <pubDate>Thu, 14 May 2026 00:00:00 +0000</pubDate><author>jclebreton@me.com (JayCee Parker)</author>
-      <guid>http://localhost:1314/2026/05/14/sans-titre/</guid>
-      <description>&lt;p&gt;&lt;figure&gt;&#xA;  &lt;img&#xA;    src=&#34;DSCF3021.jpg&#34;&#xA;    alt=&#34;Sans titre&#34;&#xA;    loading=&#34;lazy&#34;&#xA;    &#xA;  /&gt;&#xA;  &lt;figcaption&gt;Sans titre&lt;/figcaption&gt;&#xA;  &lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;À toi d&amp;rsquo;écrire la légende.&lt;/p&gt;</description>
+      <guid>https://day2day.example.com/2026/05/14/sans-titre/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;DSCF3021.jpg&#34; alt=&#34;Sans titre&#34; loading=&#34;lazy&#34; style=&#34;display:block;width:100%;height:auto;margin:0;&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;À toi d&amp;rsquo;écrire la légende.&lt;/p&gt;</description>
     </item>
     <item>
       <title>about</title>
-      <link>http://localhost:1314/about/</link>
+      <link>https://day2day.example.com/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>jclebreton@me.com (JayCee Parker)</author>
-      <guid>http://localhost:1314/about/</guid>
+      <guid>https://day2day.example.com/about/</guid>
       <description>&lt;p&gt;Quoi de plus désuet qu&amp;rsquo;un blog à l&amp;rsquo;air de l&amp;rsquo;intelligence articifielle. Et en plus un blog avec des photos prises par un être humain avec un appareil photo !&lt;/p&gt;&#xA;&lt;p&gt;La probabilité que vous tombiez sur ce blog est probablement aussi importante que celle de gagner au loto. Mais si par un hasard quantique vous arrivez ici, alors j&amp;rsquo;espère que vous apprécierez.&lt;/p&gt;&#xA;&lt;p&gt;Ce blog parlera de photographie, de technologie, de philosophie et de musique. Un condensé de mes centres d&amp;rsquo;intérêt (et parfois de désintérêt).&lt;/p&gt;</description>
     </item>
   </channel>

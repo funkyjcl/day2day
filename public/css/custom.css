@@ -1,8 +1,29 @@
 img {
-  border: none;
+  border: 1px solid black;
   border-radius: 0;
   outline: none;
   box-shadow: none;
+
+}
+
+body {
+  grid-template-columns: minmax(0, var(--container-width));
+}
+
+main {
+  min-width: 0;
+  width: 100%;
+}
+
+figure {
+  width: 100%;
+  margin: 0;
+  margin-inline: 0;
+}
+
+figure img {
+  width: 100%;
+  margin: 0;
 }
 
 .terminal-nav nav ul li + li::before {
