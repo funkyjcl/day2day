@@ -1,4 +1,4 @@
-baseURL = "https://day2day.example.com/"
+baseURL = "https://day2day.pages.dev/"
 title = "day2day"
 theme = "shibui"
 locale = "fr"
