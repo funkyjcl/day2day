@@ -1,3 +1,8 @@
+/* Largeur de page : passage à 960px (override de la variable du thème) */
+:root {
+  --container-width: 960px;
+}
+
 img {
   border: none;
   border-radius: 0;
