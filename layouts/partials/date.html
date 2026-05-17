@@ -1,1 +1,8 @@
-<time datetime="{{ . | time.Format "2006-01-02" }}">{{ . | time.Format "2006-01-02" }}&nbsp;</time>
+{{- $mois := dict
+  "1" "janvier" "2" "février" "3" "mars" "4" "avril"
+  "5" "mai" "6" "juin" "7" "juillet" "8" "août"
+  "9" "septembre" "10" "octobre" "11" "novembre" "12" "décembre" -}}
+{{- $jour := . | time.Format "2" -}}
+{{- $moisNum := . | time.Format "1" -}}
+{{- $annee := . | time.Format "2006" -}}
+<time datetime="{{ . | time.Format "2006-01-02" }}">{{ $jour }} {{ index $mois $moisNum }} {{ $annee }}</time>

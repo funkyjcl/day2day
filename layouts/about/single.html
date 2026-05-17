@@ -1,6 +1,8 @@
 {{ define "main" }}
   <h1>{{ .Title }}</h1>
-  {{ .Content }}
+  <div class="page-content">
+    {{ .Content }}
+  </div>
   {{ if not .IsHome }}
     <div class="terminal-nav">
       <div class="back-nav">

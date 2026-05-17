@@ -5,7 +5,8 @@ Quoi de plus désuet aujourd'hui qu'un blog à l'ère de l'intelligence articifi
 
 Bien entendu la probabilité que vous tombiez sur ce blog est certainement plus faible que celle que de gagner au loto. Mais si par un hasard incroyable vous arrivez sur cette page, alors j'espère que vous passerez un agréable moment. 
 
-Dernier post publié : {{< dernier-post >}}
+Dernier post publié : {{< dernier-post >}}  
+Et ici [la liste de tous les posts](/posts/)
 
 Bonne lecture. 
 

@@ -1,11 +1,13 @@
 {{ define "main" }}
   <h1>{{ .Title }}</h1>
-  {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
-
-  {{ .Content }}
-  <div class="time">
-    {{ partial "date.html" .Date }}
+  <div class="post-meta">
+    Publié le {{ partial "date.html" .Date }}
   </div>
+
+  <div class="page-content">
+    {{ .Content }}
+  </div>
+  {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
 
   <div class="terminal-nav post-terminal-nav">
     <div class="back-nav">
