@@ -4,7 +4,7 @@ date = 2026-05-17T10:00:00
 tags = ["photo"]
 +++
 
-Quelques photos prises lors d'une promenade dans les rues de Paris le vendredi 15 mai 2026.
+Quelques photos prises lors d'une promenade dans les rues de Paris le vendredi 15 mai 2026.  
 Appareil photo : Fuji X100-VI
 
 ![](DSCF2936.jpg)
