@@ -2,11 +2,9 @@
 title: "about"
 hidedate: true
 ---
-Quoi de plus désuet qu'un blog à l'air de l'intelligence articifielle. Et en plus un blog avec des photos prises par un être humain avec un appareil photo !
+Quoi de plus désuet aujourd'hui qu'un blog à l'ère de l'intelligence articifielle ? Un blog dans on parle de technologie, de philosophie, de musique, de photographie, de vélo... Un condensé de quelques uns de mes centres d'intérêt (et parfois de désintérêt).
 
-La probabilité que vous tombiez sur ce blog est probablement aussi importante que celle de gagner au loto. Mais si par un hasard quantique vous arrivez ici, alors j'espère que vous apprécierez.
-
-Ce blog parlera de photographie, de technologie, de philosophie et de musique. Un condensé de mes centres d'intérêt (et parfois de désintérêt). 
+Bien entendu la probabilité que vous tombiez sur ce blog est certainement plus faible que celle que de gagner au loto. Mais si par un hasard incroyable vous arrivez sur cette page, alors j'espère que vous passerez un agréable moment. 
 
 Bonne lecture.
 
