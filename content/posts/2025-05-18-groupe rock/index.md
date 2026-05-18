@@ -12,7 +12,17 @@ Bien qu'en état de "mort cérébrale" depuis de nombreux mois, ce groupe repré
 
 # C'est quoi un groupe de rock ?
 
-Cette question peut paraître un peu stupide. Tout le monde sait ce qu'est une groupe de rock : des gens qui se rassemblent et qui font de la musique avec des instruments amplifiés, une batterie et du chant. Souvent ils boivent des bières, fument des clopes (ou autre) et jouent trop fort. On va dire que ça c'est le résultat, le rendu d'un groupe, ce qui se voit de l'extérieur. 
+Cette question peut paraître un peu stupide. Tout le monde sait ce qu'est une groupe de rock : des gens qui se rassemblent et qui font de la musique avec des instruments amplifiés, une batterie et du chant. Souvent ils boivent des bières, fument des clopes (ou autre) et jouent trop fort. Mais ça c'est le résultat, le rendu d'un groupe, ce qui se voit de l'extérieur. 
 
-Mais un groupe c'est aussi autre chose : c'est un système. Un système avec son fonctionnement propre, ses codes, ses rôles, ses problèmes humains et logistiques, ses prises de tête, ses moments de rire. Et parfois ses instants de grâce, quand la musique émerge, l'émotion, la symbiose, qu'une fois le morceau terminé on a l'impression d'avoir fait du sport ! Ces moments sont rares, il faut s'en souvenir.
+Un groupe c'est aussi autre chose : c'est un système. Un système avec son fonctionnement propre, ses codes, ses rôles, ses problèmes humains et logistiques, ses prises de tête, ses moments de rire. Et parfois ses instants de grâce, quand la musique émerge, l'émotion, la symbiose, qu'une fois le morceau terminé on a l'impression d'avoir fait du sport ! Ces moments sont rares, il faut s'en souvenir.
+
+# La naissance
+
+Il existe mille et une façons pour un groupe de se créer. Pour moi avec ce groupe, tout est passé par des rencontres et internet. Tiens tirons le fil de Split Machine.
+
+Un jour je me suis dit que je (re)prendrais bien des cours de basse. Alors j'ai cherché un prof sur Paris et j'ai pris quelques cours. Lui connaissait un gars, Olivier, qui cherchait à monter un groupe de reprises rock. Bon pas trop montruc les reprises mais comme je n'avais rien sous la main à ce moment là et que mon prof me disait qu'Olivier était bon j'y suis allé quand même. Ca a tout de suite bien fonctionné tous les deux.
+
+Alors on a cherché un batteur, dont j'ai oublié le nom, puis un chanteur, Yass, un pote à moi. Et on a monté le groupe Joe Lexine. Après quelques concerts, Olivier a décidé de quitter Paris pour s'installer en province. De toute façon Yass et moi on ne voulait plus faire de reprises. On a donc décidé de trouver un nouveau batteur, Tonio, qui était une vague connaissance de Yass du quartier de la Butte aux Cailles. Et on a passé une annonce sur Zikinf pour trouver un guitariste : Rod. Voilà, le groupe Split Machine dans sa première version était né.
+
+
 
