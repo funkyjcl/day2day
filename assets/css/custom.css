@@ -57,7 +57,7 @@ figure img {
 }
 
 .post-nav a {
-  color: var(--color-text-muted);
+  color: #3E3D5D;
   text-decoration: none;
   border-bottom: none;
   font-size: 1em;
@@ -66,17 +66,19 @@ figure img {
 }
 
 .post-nav a:hover {
-  color: var(--color-text-primary);
+  color: #3E3D5D;
 }
 
-/* Liens dans le contenu d'un post : gras, sans soulignement */
+/* Liens dans le contenu d'un post (et pages statiques type about) : gras, sans soulignement, couleur de marque */
 .page-content a {
+  color: #3E3D5D;
   font-weight: bold;
   text-decoration: none;
   border-bottom: none;
 }
 
 .page-content a:hover {
+  color: #3E3D5D;
   text-decoration: none;
 }
 
@@ -114,11 +116,13 @@ main h1 {
 }
 
 .time-list a {
+  color: #3E3D5D;
   font-weight: bold;
   text-decoration: none;
   border-bottom: none;
 }
 
 .time-list a:hover {
+  color: #3E3D5D;
   text-decoration: none;
 }
