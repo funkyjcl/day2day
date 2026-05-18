@@ -2,7 +2,7 @@
 title = "Naissance, vie et mort d'un groupe de rock"
 date = 2026-05-17T18:00:00
 tags = ["musique", "management"]
-    P+++
++++
 
 Paris, un dimanche après-midi pluvieux. Je viens d'annoncer à ce qu'il reste de mon groupe de rock [Split Machine](https://youtu.be/tijoPmZZJ5o?si=aG83ooKHD_WXEOvp) que j'arrête.
 
