@@ -22,6 +22,10 @@ enableInlineShortcodes = true
     name = "about"
     url = "/about/"
     weight = 2
+  [[menu.main]]
+    name = "collection"
+    url = "/collection/"
+    weight = 3
 
 [permalinks]
   posts = "/:year/:month/:day/:slug/"
