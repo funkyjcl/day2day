@@ -7,7 +7,7 @@ Bien entendu la probabilité que vous tombiez sur ce blog est plus faible que ce
 
 Dernier post publié : {{< dernier-post >}}
 
-[Liste de tous les posts](/posts/)
+Voir ici la [liste de tous les posts](/posts/)
 
 Bonne lecture. 
 
