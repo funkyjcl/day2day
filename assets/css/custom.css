@@ -1,10 +1,13 @@
 /* Overrides des variables du thème :
    - largeur de page à 720px
    - pile mono explicite : corrige le bug Chrome Windows où `font-family: monospace`
-     générique force une taille à 13px au lieu de 16px */
+     générique force une taille à 13px au lieu de 16px
+   - taille de base légèrement réduite (~15px) : la vraie pile mono rend
+     plus dense que la mono générique, on compense un peu */
 :root {
   --container-width: 720px;
   --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-size-base: 0.9375em;
 }
 
 img {
@@ -66,17 +69,15 @@ figure img {
   border-bottom: none;
   font-size: 1em;
   line-height: 1;
-  font-weight: bold;
 }
 
 .post-nav a:hover {
   color: #38A5AB;
 }
 
-/* Liens dans le contenu d'un post (et pages statiques type about) : gras, sans soulignement, couleur de marque */
+/* Liens dans le contenu d'un post (et pages statiques type about) : couleur de marque, sans soulignement, poids normal */
 .page-content a {
   color: #38A5AB;
-  font-weight: bold;
   text-decoration: none;
   border-bottom: none;
 }
@@ -121,7 +122,6 @@ main h1 {
 
 .time-list a {
   color: #38A5AB;
-  font-weight: bold;
   text-decoration: none;
   border-bottom: none;
 }
