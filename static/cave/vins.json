@@ -6,34 +6,6 @@
   },
   "vins": [
     {
-      "id": "8c4750",
-      "domaine": "Château Mangot",
-      "cuvee": "Distique 11",
-      "couleur": "rouge",
-      "region": "Bordeaux",
-      "appellation": "Saint-Émilion Grand Cru",
-      "millesime": 2018,
-      "cepages": [
-        "cabernet franc",
-        "merlot",
-        "cabernet sauvignon"
-      ],
-      "classement": "grand cru",
-      "apogee": "2024-2032",
-      "date_limite": null,
-      "accords": "Viandes rouges grillées, agneau rôti, fromages affinés",
-      "note_elise": null,
-      "commentaire_elise": null,
-      "note_parker": null,
-      "note_hachette": null,
-      "bouteilles": 1,
-      "photos": [
-        "photos/8c4750-1.jpg",
-        "photos/8c4750-2.jpg"
-      ],
-      "date_ajout": "2026-06-10"
-    },
-    {
       "id": "7cdbf7",
       "domaine": "Château Paloumey",
       "cuvee": null,
@@ -85,6 +57,34 @@
       "photos": [
         "photos/562193-1.jpg",
         "photos/562193-2.jpg"
+      ],
+      "date_ajout": "2026-06-10"
+    },
+    {
+      "id": "8c4750",
+      "domaine": "Château Mangot",
+      "cuvee": "Distique 11",
+      "couleur": "rouge",
+      "region": "Bordeaux",
+      "appellation": "Saint-Émilion Grand Cru",
+      "millesime": 2018,
+      "cepages": [
+        "Cabernet Franc",
+        "Merlot",
+        "Cabernet Sauvignon"
+      ],
+      "classement": "grand cru",
+      "apogee": "2024-2032",
+      "date_limite": null,
+      "accords": "Viandes rouges, agneau rôti, fromages affinés, plats en sauce",
+      "note_elise": 4,
+      "commentaire_elise": null,
+      "note_parker": null,
+      "note_hachette": null,
+      "bouteilles": 1,
+      "photos": [
+        "photos/8c4750-1.jpg",
+        "photos/8c4750-2.jpg"
       ],
       "date_ajout": "2026-06-10"
     }
