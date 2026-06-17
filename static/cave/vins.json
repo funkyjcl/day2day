@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": 1,
-    "genere_le": "2026-06-10",
+    "genere_le": "2026-06-17",
     "outil": "Dionysos Admin"
   },
   "vins": [
@@ -81,12 +81,95 @@
       "commentaire_elise": null,
       "note_parker": null,
       "note_hachette": null,
-      "bouteilles": 1,
+      "bouteilles": 0,
       "photos": [
         "photos/8c4750-1.jpg",
         "photos/8c4750-2.jpg"
       ],
       "date_ajout": "2026-06-10"
+    },
+    {
+      "id": "552ba6",
+      "domaine": "Pierre Amadieu",
+      "cuvee": "Le Pas de l'Aigle - Terroir d'Exception",
+      "couleur": "rouge",
+      "region": "Vallée du Rhône",
+      "appellation": "Gigondas",
+      "millesime": 2022,
+      "cepages": [
+        "Grenache",
+        "Syrah"
+      ],
+      "classement": null,
+      "apogee": "2026-2034",
+      "date_limite": null,
+      "accords": "Agneau rôti, gibier, viandes rouges grillées, fromages affinés",
+      "note_elise": null,
+      "commentaire_elise": null,
+      "note_parker": null,
+      "note_hachette": null,
+      "bouteilles": 1,
+      "photos": [
+        "photos/552ba6-1.jpg",
+        "photos/552ba6-2.jpg"
+      ],
+      "date_ajout": "2026-06-17"
+    },
+    {
+      "id": "b5ec74",
+      "domaine": "Domaine La Lôyane",
+      "cuvee": "Cuvée Bonheur",
+      "couleur": "rouge",
+      "region": "Vallée du Rhône",
+      "appellation": "Côtes du Rhône",
+      "millesime": 2024,
+      "cepages": [
+        "Grenache",
+        "Syrah",
+        "Mourvèdre"
+      ],
+      "classement": null,
+      "apogee": "2025-2028",
+      "date_limite": null,
+      "accords": "Viandes grillées, agneau, fromages affinés, charcuterie",
+      "note_elise": null,
+      "commentaire_elise": null,
+      "note_parker": null,
+      "note_hachette": null,
+      "bouteilles": 1,
+      "photos": [
+        "photos/b5ec74-1.jpg",
+        "photos/b5ec74-2.jpg"
+      ],
+      "date_ajout": "2026-06-17"
+    },
+    {
+      "id": "a49f6c",
+      "domaine": "Clos Haut Valoir - Denis Sarda Bobo",
+      "cuvee": "Vision",
+      "couleur": "rouge",
+      "region": "Languedoc-Roussillon",
+      "appellation": "Roussillon",
+      "millesime": 2022,
+      "cepages": [
+        "Grenache",
+        "Syrah",
+        "Mourvèdre",
+        "Carignan"
+      ],
+      "classement": null,
+      "apogee": "2025-2030",
+      "date_limite": null,
+      "accords": "Viandes grillées, gibier, fromages affinés, tajines",
+      "note_elise": null,
+      "commentaire_elise": null,
+      "note_parker": null,
+      "note_hachette": null,
+      "bouteilles": 1,
+      "photos": [
+        "photos/a49f6c-1.jpg"
+      ],
+      "date_ajout": "2026-06-17"
     }
   ]
 }
