@@ -2,7 +2,7 @@
 title = "Naissance, vie et mort d'un groupe de rock amateur"
 date = 2026-05-17T18:00:00
 tags = ["musique", "management"]
-draft = true
+draft = false
 +++
 
 Paris, un dimanche après-midi pluvieux. Je viens d'annoncer à ce qu'il reste de mon groupe de rock que j'arrête.
