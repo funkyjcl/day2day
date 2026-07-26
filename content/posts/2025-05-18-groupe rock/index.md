@@ -1,6 +1,6 @@
 +++
 title = "Naissance, vie et mort d'un groupe de rock amateur"
-date = 2026-05-17T18:00:00
+date = 2026-07-25T18:00:00
 tags = ["musique", "management"]
 draft = false
 +++
