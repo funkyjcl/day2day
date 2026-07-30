@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La collection de Lena</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #f7f7f7;
+  --surface2: #ececec;
+  --border: #e0e0e0;
+  --text: #1a1a1a;
+  --muted: #777;
+  --accent: #0aa39a;
+  --accent-dim: rgba(10,163,154,0.10);
+  --accent-music: #d62828;
+  --accent-music-dim: rgba(214,40,40,0.10);
+  --radius: 8px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+
+/* ── Header ── */
+header { padding: 20px 32px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; margin-right: auto; }
+header h1 span { color: var(--accent); }
+#total-count { color: var(--muted); font-size: 0.85rem; }
+#profile-link { color: var(--muted); font-size: 0.8rem; text-decoration: none; }
+#profile-link:hover { color: var(--accent); }
+
+/* ── Switcher ── */
+#switcher { display: none; gap: 6px; }
+.sw-btn {
+  padding: 6px 16px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.sw-btn:hover:not(.active) { border-color: var(--text); color: var(--text); }
+#btn-vinyl.active  { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+#btn-music.active  { color: var(--accent-music); border-color: var(--accent-music); background: var(--accent-music-dim); }
+
+/* ── Badge artiste commun ── */
+.badge-other {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  border-radius: 10px;
+  margin-left: 5px;
+  vertical-align: middle;
+  opacity: 0.8;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  cursor: default;
+}
+
+/* ── Controls ── */
+#controls {
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+#search {
+  flex: 1 1 220px;
+  padding: 9px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+#search:focus { outline: none; border-color: var(--accent); }
+select, input[type=number] {
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+select:focus, input[type=number]:focus { outline: none; border-color: var(--accent); }
+input[type=number] { width: 72px; text-align: center; }
+.year-range { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.85rem; }
+.sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+
+#btn-reset {
+  padding: 8px 14px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Results bar ── */
+#results-bar {
+  padding: 10px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.view-toggle { display: flex; gap: 0; }
+.view-toggle button {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+.view-toggle button:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+.view-toggle button:last-child { border-radius: 0 var(--radius) var(--radius) 0; border-left: none; }
+.view-toggle button.active { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+
+/* ── Grid view ── */
+#collection {
+  padding: 20px 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  content-visibility: auto;
+  contain-intrinsic-size: 175px 270px;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.cover-wrap {
+  position: relative;
+  padding-top: 100%;
+  background: var(--surface2);
+  overflow: hidden;
+}
+.cover-wrap img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s;
+}
+.cover-wrap img.lazy { opacity: 0; }
+.cover-wrap img.loaded { opacity: 1; }
+.no-cover {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; color: var(--muted);
+}
+.card-body { padding: 10px 12px; }
+.card-artist { font-size: 0.75rem; color: var(--accent); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; letter-spacing: 0.3px; }
+.card-artist.music { color: var(--accent-music); }
+.card-title { font-size: 0.85rem; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
+.card-meta { font-size: 0.75rem; color: var(--muted); margin-top: 5px; display: flex; justify-content: space-between; }
+.stars { color: var(--accent); letter-spacing: -1px; }
+
+/* ── List view ── */
+#collection.list-view {
+  display: block;
+  padding: 0 32px 20px;
+}
+#collection.list-view table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+#collection.list-view th {
+  text-align: left;
+  padding: 10px 12px;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 57px;
+  background: var(--bg);
+  z-index: 5;
+}
+#collection.list-view td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+#collection.list-view tr:hover td { background: var(--surface); cursor: pointer; }
+.list-thumb {
+  width: 40px; height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  background: var(--surface2);
+}
+.list-thumb-placeholder {
+  width: 40px; height: 40px;
+  border-radius: 4px;
+  background: var(--surface2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  color: var(--muted);
+}
+.tag {
+  display: inline-block;
+  padding: 2px 7px;
+  background: var(--surface2);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 1px;
+}
+.col-artist { color: var(--accent); font-weight: 500; }
+.col-artist.music { color: var(--accent-music); }
+
+/* ── Empty state ── */
+#empty {
+  display: none;
+  text-align: center;
+  padding: 80px 32px;
+  color: var(--muted);
+}
+#empty .icon { font-size: 3rem; margin-bottom: 12px; }
+
+/* ── Modal ── */
+#modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+#modal-overlay.open { display: flex; }
+#modal {
+  background: var(--surface);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  gap: 0;
+  position: relative;
+}
+#modal-cover-col {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--surface2);
+  border-radius: 12px 0 0 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+#modal-cover-col img { width: 100%; display: block; }
+#modal-cover-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem; color: var(--muted);
+}
+#modal-body {
+  padding: 28px 28px 28px 24px;
+  flex: 1;
+  min-width: 0;
+}
+#modal-body h2 { font-size: 1.15rem; line-height: 1.3; margin-bottom: 4px; }
+#modal-body .modal-artist {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+#modal-body .modal-artist.vinyl { color: var(--accent); }
+#modal-body .modal-artist.music { color: var(--accent-music); }
+.modal-table { width: 100%; border-collapse: collapse; }
+.modal-table td { padding: 6px 0; font-size: 0.88rem; vertical-align: top; }
+.modal-table td:first-child { color: var(--muted); width: 110px; flex-shrink: 0; padding-right: 12px; }
+.modal-table tr { border-bottom: 1px solid var(--border); }
+.modal-table tr:last-child { border-bottom: none; }
+.modal-stars { color: var(--accent); font-size: 1.1rem; }
+#modal-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 8px 16px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+#modal-link:hover { background: var(--accent); color: #fff; }
+#modal-close {
+  position: absolute;
+  top: 14px; right: 16px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+#modal-close:hover { color: var(--text); background: var(--surface2); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+@media (max-width: 600px) {
+  #controls { padding: 12px 16px; }
+  #collection { padding: 16px; }
+  #modal { flex-direction: column; max-width: 100%; }
+  #modal-cover-col { width: 100%; border-radius: 12px 12px 0 0; max-height: 220px; overflow: hidden; }
+  header { padding: 16px; }
+  #results-bar { padding: 8px 16px; }
+  #collection.list-view { padding: 0 16px 16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💿 <span>La collection de Lena</span></h1>
+  <div id="switcher">
+    <button id="btn-vinyl" class="sw-btn active">💿 Vinyles · 41</button>
+    <button id="btn-music" class="sw-btn">🎵 Apple Music · 0</button>
+  </div>
+  <span id="total-count"></span>
+  <a id="profile-link" href="https://www.discogs.com/user/lena__lbrt" target="_blank" rel="noopener">@lena__lbrt ↗</a>
+</header>
+
+<div id="controls">
+  <input type="search" id="search" placeholder="Rechercher artiste, titre, label, style…">
+
+  <select id="filter-genre"><option value="">Tous les genres</option></select>
+  <span id="style-wrap"><select id="filter-style"><option value="">Tous les styles</option></select></span>
+
+  <div class="year-range">
+    Année
+    <input type="number" id="year-min" placeholder="min">
+    –
+    <input type="number" id="year-max" placeholder="max">
+  </div>
+
+  <select id="filter-note">
+    <option value="0">Toutes les notes</option>
+    <option value="1">≥ 1 ★</option>
+    <option value="2">≥ 2 ★★</option>
+    <option value="3">≥ 3 ★★★</option>
+    <option value="4">≥ 4 ★★★★</option>
+    <option value="5">5 ★★★★★</option>
+  </select>
+
+  <div class="sep"></div>
+
+  <select id="sort">
+    <option value="artiste-asc">Artiste A → Z</option>
+    <option value="artiste-desc">Artiste Z → A</option>
+    <option value="titre">Titre A → Z</option>
+    <option value="annee-asc">Année ↑</option>
+    <option value="annee-desc">Année ↓</option>
+    <option value="date-desc">Ajouté récemment</option>
+    <option value="note-desc">Mieux notés</option>
+  </select>
+
+  <button id="btn-reset">Réinitialiser</button>
+</div>
+
+<div id="results-bar">
+  <span id="count"></span>
+  <div class="view-toggle">
+    <button id="btn-grid" class="active" title="Grille">⊞</button>
+    <button id="btn-list" title="Liste">☰</button>
+  </div>
+</div>
+
+<div id="collection"></div>
+<div id="empty"><div class="icon">🔍</div><div>Aucun élément ne correspond à ces critères.</div></div>
+
+<!-- Modal -->
+<div id="modal-overlay">
+  <div id="modal">
+    <button id="modal-close">✕</button>
+    <div id="modal-cover-col">
+      <img id="modal-cover-img" src="" alt="" style="display:none">
+      <div id="modal-cover-placeholder">💿</div>
+    </div>
+    <div id="modal-body">
+      <div class="modal-artist" id="modal-artist"></div>
+      <h2 id="modal-title"></h2>
+      <table class="modal-table" id="modal-table"></table>
+      <a id="modal-link" href="#" target="_blank" rel="noopener">Voir sur Discogs ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA_VINYL = [{"artiste": "ABBA", "titre": "Gold (Greatest Hits)", "année": 1992, "label": "Polar", "référence": "0600753511060", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Compilation, Reissue, Remastered", "genre": "Electronic, Pop", "styles": "Disco", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/xTDucqtxCjugZvuhMrvW523ejyj4tOH31wvN5HLAvZk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MzYz/NDM3LTE3MDQxMDYw/MjMtMjA0MC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/wlSJGlifS8iIB4w6oT7KilTxRCr3-My7YRalrDWOJ2o/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MzYz/NDM3LTE3MDQxMDYw/MjMtMjA0MC5qcGVn.jpeg", "cover_local": "covers_lena/29363437.jpg", "url": "https://www.discogs.com/release/29363437", "_idx": 0, "_source": "vinyl"}, {"artiste": "Antonio Vivaldi", "titre": "Le Quattro Stagioni - The Four Seasons - Die Vier Jahreszeiten - Les Quatre Saisons", "année": 1985, "label": "L'Oiseau-Lyre", "référence": "410 126-1 OH", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Stereo", "genre": "Classical", "styles": "Baroque, String Instrument, Concerto, Program Music, Orchestra", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/_KghzeJO6Ql7bCOkBibLQ7ofp62IAtFvZMOzuHsrHOI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4ODM0/MDgtMTYxNTY3MjEz/MS03Mjc2LmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/VlCWKvHIw-_Gv3OHjpHUrrFN3ErrMRUelSQsM3_oyIo/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4ODM0/MDgtMTYxNTY3MjEz/MS03Mjc2LmpwZWc.jpeg", "cover_local": "covers_lena/2883408.jpg", "url": "https://www.discogs.com/release/2883408", "_idx": 1, "_source": "vinyl"}, {"artiste": "Arctic Monkeys", "titre": "AM", "année": 2013, "label": "Domino", "référence": "WIGLP317", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album", "genre": "Rock", "styles": "Indie Rock, Alternative Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/bQsOOFSatY_b-5mRMHQ30I1psFiLskvaw77rlyhOwIU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ5MDQx/NTgtMTM3ODk5NDA1/My03MjEyLmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/MohCZfatquytAhecVgsR1eyVULp-kPT7ricg83wi0WE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ5MDQx/NTgtMTM3ODk5NDA1/My03MjEyLmpwZWc.jpeg", "cover_local": "covers_lena/4904158.jpg", "url": "https://www.discogs.com/release/4904158", "_idx": 2, "_source": "vinyl"}, {"artiste": "Arctic Monkeys", "titre": "The Car", "année": 2022, "label": "Domino", "référence": "WIGLP455", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album", "genre": "Rock", "styles": "Alternative Rock, Indie Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/22ERM42C99fniNxgRjvSOr96DXboaRKMlcSD-XO80cw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0OTAw/NDQ5LTE3MjMyMjAx/OTktMjg4NC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/XPumNVNzziCCyNNpMvSJTZdGss98J3bDz34OjxbvveQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0OTAw/NDQ5LTE3MjMyMjAx/OTktMjg4NC5qcGVn.jpeg", "cover_local": "covers_lena/24900449.jpg", "url": "https://www.discogs.com/release/24900449", "_idx": 3, "_source": "vinyl"}, {"artiste": "The Beatles", "titre": "The Beatles", "année": 1968, "label": "Apple Records", "référence": "SMO 2051/2", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Reissue", "genre": "Rock", "styles": "Pop Rock, Psychedelic Rock, Rock & Roll", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/5NMqm4dpxfbCg0vGxmEZf3RMeAhSUJLUqDilkLsjjXo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMzg0/NjAwLTE1MzQxODAy/OTEtNDg0NC5tcG8.jpeg", "pochette_url": "https://i.discogs.com/UsqHIjRgioWrBq8U729bSOwxdQosnH8Yhf-uY2kLDjg/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMzg0/NjAwLTE1MzQxODAy/OTEtNDg0NC5tcG8.jpeg", "cover_local": "covers_lena/12384600.jpg", "url": "https://www.discogs.com/release/12384600", "_idx": 4, "_source": "vinyl"}, {"artiste": "Billie Eilish", "titre": "Happier Than Ever", "année": 2021, "label": "Darkroom (4)", "référence": "B0033778-01", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Stereo", "genre": "Pop", "styles": "Indie Pop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/Id9DivtS5QTcBZbXNPj2j2de8BZZTiq7IX6wfX5sfhI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5Njc2/NTk2LTE3MzM0MDcx/NTEtNzQ1NC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/cA3RdOpdtlL5I2pGJh8yd0y9uSAjeTzOVcuWQvmz-Es/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5Njc2/NTk2LTE3MzM0MDcx/NTEtNzQ1NC5qcGVn.jpeg", "cover_local": "covers_lena/19676596.jpg", "url": "https://www.discogs.com/release/19676596", "_idx": 5, "_source": "vinyl"}, {"artiste": "Billie Eilish", "titre": "Hit Me Hard And Soft", "année": 2024, "label": "Darkroom (4)", "référence": "00602478161476", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue, Special Edition", "genre": "Electronic, Pop", "styles": "Indie Pop, Alt-Pop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/cXhYkMWy4vqLWbLPqLR7x_M6cSvvjmed6ZWvS4ULLCs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0Nzcz/MjYzLTE3NTU2OTkx/NjktMjIzNy5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/5LScfG2IYHr_nkcAsPgBL9rHgr1VyrKPEQ4mc0dCnMA/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0Nzcz/MjYzLTE3NTU2OTkx/NjktMjIzNy5qcGVn.jpeg", "cover_local": "covers_lena/34773263.jpg", "url": "https://www.discogs.com/release/34773263", "_idx": 6, "_source": "vinyl"}, {"artiste": "Daft Punk", "titre": "Discovery", "année": 2001, "label": "ADA (6)", "référence": "0190296617164", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Reissue, Stereo", "genre": "Electronic", "styles": "Disco, House, Electro, French House", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/OcR6i2Fv_SfF9sih2pviD3WALF0-BLkqmvbbNmls8vk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5Mjc3/MDEwLTE3MzMwODAz/ODEtMzE5Ni5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/9omVF7Ur_lP25cJS_AUeKEXhSWncOr_VllpR1UdVHV4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5Mjc3/MDEwLTE3MzMwODAz/ODEtMzE5Ni5qcGVn.jpeg", "cover_local": "covers_lena/29277010.jpg", "url": "https://www.discogs.com/release/29277010", "_idx": 7, "_source": "vinyl"}, {"artiste": "Doechii", "titre": "Alligator Bites Never Heal", "année": 2024, "label": "Top Dawg Entertainment", "référence": "00602475207719", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Mixtape, Stereo", "genre": "Hip Hop, Funk / Soul", "styles": "", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/eD9heyLlyjyROa_J7cSxxOKell1d_CRGgQ5_MA18u6Y/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyNzY3/MDExLTE3MzYxNDU4/ODMtNDk4OS5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/yS8FvlR_qGCszCSCQMi4sXhKUuoI1eqMgSoDLeCapSI/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyNzY3/MDExLTE3MzYxNDU4/ODMtNDk4OS5qcGVn.jpeg", "cover_local": "covers_lena/32767011.jpg", "url": "https://www.discogs.com/release/32767011", "_idx": 8, "_source": "vinyl"}, {"artiste": "Eagles", "titre": "Hotel California", "année": 1976, "label": "Asylum Records", "référence": "AS 53051", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Stereo", "genre": "Rock", "styles": "Country Rock, Classic Rock, Pop Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/z3nTW1B7_tveEjR5IUHrLr4MglNoiwtaNq1nN1_uMOg/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MjE5/MS0xNDQ5NjAzMTk0/LTk1MDcuanBlZw.jpeg", "pochette_url": "https://i.discogs.com/TdUufJLlsrwUtDKlNnZE7q7NtWOjNZ3y5ZdKvQAI4Hk/rs:fit/g:sm/q:90/h:591/w:590/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MjE5/MS0xNDQ5NjAzMTk0/LTk1MDcuanBlZw.jpeg", "cover_local": "covers_lena/372191.jpg", "url": "https://www.discogs.com/release/372191", "_idx": 9, "_source": "vinyl"}, {"artiste": "Edith Piaf", "titre": "La Vie En Rose", "année": 2018, "label": "Wagram Music", "référence": "3359406", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Compilation", "genre": "Classical", "styles": "", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/fXoukGaw-zvkYKEXFYZLSQ6iL9NHQ8Hy-fEpE9QVK5k/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNTkz/NzczLTE1MzgyNDM3/MjEtMzA3Ny5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/q_S9fiNntRB3frLIbP58RZQnI2iqpDclvA9yW_VSIT8/rs:fit/g:sm/q:90/h:600/w:589/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNTkz/NzczLTE1MzgyNDM3/MjEtMzA3Ny5qcGVn.jpeg", "cover_local": "covers_lena/12593773.jpg", "url": "https://www.discogs.com/release/12593773", "_idx": 10, "_source": "vinyl"}, {"artiste": "Elton John", "titre": "Madman Across The Water", "année": 1971, "label": "DJM Records (2)", "référence": "DJH 20420", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue", "genre": "Rock", "styles": "Pop Rock, Classic Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/MuJy33irASOHN3ve7aU2Rw64djvv-iMoQOq3UFVWtfw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5NzQy/OTAtMTUyOTg0NTU3/NC04OTk2LmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/_R0XTpJTnNeiQWv37-ZosbwtGWTQDZKcTjJqtOu6Arc/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5NzQy/OTAtMTUyOTg0NTU3/NC04OTk2LmpwZWc.jpeg", "cover_local": "covers_lena/2974290.jpg", "url": "https://www.discogs.com/release/2974290", "_idx": 11, "_source": "vinyl"}, {"artiste": "Kendrick Lamar", "titre": "Damn.", "année": 2017, "label": "Top Dawg Entertainment", "référence": "00602557618280", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Reissue", "genre": "Hip Hop", "styles": "Conscious", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/OVnIS77TKvNMduJYltOlrtQKAW9RCH-VMUHk-yck9TA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1Njgz/ODIwLTE2NzMyODgy/OTUtNzQ5Mi5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/rKFmsNag6lSOzDCbGZmWXMalB1QxnVTnSq7_HU1zWcg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1Njgz/ODIwLTE2NzMyODgy/OTUtNzQ5Mi5qcGVn.jpeg", "cover_local": "covers_lena/25683820.jpg", "url": "https://www.discogs.com/release/25683820", "_idx": 12, "_source": "vinyl"}, {"artiste": "Lana Del Rey", "titre": "Born To Die", "année": 2012, "label": "Interscope Records", "référence": "B0016425-01", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue", "genre": "Rock, Pop", "styles": "Dream Pop, Indie Pop, Trip Hop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/7MIp_hJg1PfCD0eSVqUqiKjX4a2kGwuc_Spfq04lS04/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MDM0/Nzk2LTE2OTI2MjIz/OTUtMjk3Ny5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/cttt7hTLrvgao8A8OW6nOUspFJpBgHCR52j0Yibng2c/rs:fit/g:sm/q:90/h:600/w:590/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MDM0/Nzk2LTE2OTI2MjIz/OTUtMjk3Ny5qcGVn.jpeg", "cover_local": "covers_lena/28034796.jpg", "url": "https://www.discogs.com/release/28034796", "_idx": 13, "_source": "vinyl"}, {"artiste": "Lana Del Rey", "titre": "Did You Know That There's A Tunnel Under Ocean Blvd", "année": 2023, "label": "Polydor", "référence": "4859195", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Limited Edition", "genre": "Rock, Pop", "styles": "Baroque Pop, Indie Rock, Indie Pop, Alt-Pop, Ballad", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/S_XxcFwQ7ynykeWZdlzaWe4Isc6PZOlUIdbNUAFVbLU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NTE3/NjM1LTE3MzU5MTIz/MjYtNjg5MC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/rkGxRZ_WlL6tG-DNS0wDaIXnFnoSBu_BB-JB6sE3TuY/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NTE3/NjM1LTE3MzU5MTIz/MjYtNjg5MC5qcGVn.jpeg", "cover_local": "covers_lena/26517635.jpg", "url": "https://www.discogs.com/release/26517635", "_idx": 14, "_source": "vinyl"}, {"artiste": "Lana Del Rey", "titre": "Ultraviolence", "année": 2014, "label": "Polydor", "référence": "3787448", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Deluxe Edition, Stereo", "genre": "Electronic, Rock, Pop", "styles": "Ballad, Dream Pop, Downtempo", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/4sb2ed4cB3GWmsyePU1jwGCyFKh4G7qeoja8cVacSh8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU4MDU5/NjUtMTYzNzA4MDU3/My00MjU1LmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/KemiCJGxZFgdN8Xl7NcE6sluCpZIF-IpPAqsok3zkMU/rs:fit/g:sm/q:90/h:600/w:589/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU4MDU5/NjUtMTYzNzA4MDU3/My00MjU1LmpwZWc.jpeg", "cover_local": "covers_lena/5805965.jpg", "url": "https://www.discogs.com/release/5805965", "_idx": 15, "_source": "vinyl"}, {"artiste": "Lauryn Hill", "titre": "The Miseducation Of Lauryn Hill", "année": 1998, "label": "Ruffhouse Records", "référence": "88875194221", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Reissue", "genre": "Hip Hop, Funk / Soul", "styles": "Pop Rap, Neo Soul, Contemporary R&B, Conscious", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/8cFgBO1qU4PwzOjMKxT5IUP4rjhJOb8-LMxAja2fNeU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5MjEx/OTcxLTE2MjQyMDkw/OTctMzAwMC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/U7NwXiIlj5wRMn7H6hfGQxenkuo7cuQAMxRf7vPr8NU/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5MjEx/OTcxLTE2MjQyMDkw/OTctMzAwMC5qcGVn.jpeg", "cover_local": "covers_lena/19211971.jpg", "url": "https://www.discogs.com/release/19211971", "_idx": 16, "_source": "vinyl"}, {"artiste": "Madonna", "titre": "Like A Virgin", "année": 1984, "label": "Sire", "référence": "929 210-7", "format": "Vinyl", "quantité": 1, "descriptions": "7\", 45 RPM, Single, Stereo", "genre": "Electronic", "styles": "Synth-pop", "note": 0, "date_ajout": "2026-06-27", "pochette_thumb": "https://i.discogs.com/2a61cTauZxzR6GYG0LdcKIu94_iFVmFUxmEPFMkex6M/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzODkx/OC0xNjY2MTY4MTcy/LTk2MDcuanBlZw.jpeg", "pochette_url": "https://i.discogs.com/flUZMMqfRhjebx6UDTwjk1AytGP_ydG2tQI3N1JIpx8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzODkx/OC0xNjY2MTY4MTcy/LTk2MDcuanBlZw.jpeg", "cover_local": "covers_lena/138918.jpg", "url": "https://www.discogs.com/release/138918", "_idx": 17, "_source": "vinyl"}, {"artiste": "Marilyn Monroe", "titre": "Legends", "année": 1976, "label": "Legends", "référence": "1000/1", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Compilation", "genre": "Jazz, Non-Music", "styles": "", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/eMN9zp3n8CTIz9xY9tN4KCi_XAjINK55dcPJeNngnMY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODcy/OTktMTE5OTM1ODM5/OC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/WJUDMJMR5Cfxm3wMdFwQc_XyKp7Hd8M2PlKF-uhvYqI/rs:fit/g:sm/q:90/h:583/w:591/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODcy/OTktMTE5OTM1ODM5/OC5qcGVn.jpeg", "cover_local": "covers_lena/1187299.jpg", "url": "https://www.discogs.com/release/1187299", "_idx": 18, "_source": "vinyl"}, {"artiste": "MC Solaar", "titre": "Qui Sème Le Vent Récolte Le Tempo", "année": 1991, "label": "Universal Music France", "référence": "359902-6", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue, Stereo", "genre": "Hip Hop, Funk / Soul", "styles": "Pop Rap, Jazzy Hip-Hop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/XslGeY_v2egNrBHTLEPU_bGes1fjbamWYGWEySmR1-8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNDgz/OTcwLTE3MjQ1NzA4/NDAtNzkxNS5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/1p-72kHACH_ebT45rsGr7zYrz017cDHl7xvYTJBbdY8/rs:fit/g:sm/q:90/h:585/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNDgz/OTcwLTE3MjQ1NzA4/NDAtNzkxNS5qcGVn.jpeg", "cover_local": "covers_lena/31483970.jpg", "url": "https://www.discogs.com/release/31483970", "_idx": 19, "_source": "vinyl"}, {"artiste": "Michael Jackson", "titre": "Bad", "année": 1987, "label": "Epic", "référence": "88875143741", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue, Repress", "genre": "Rock, Funk / Soul, Pop", "styles": "Ballad, Funk, Soul", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/-_0yqteXq0_Q2EqJllILU5h_tYQsepowoPO2OzFZv4c/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MTYy/NzEzLTE3MDIyMTU2/MzItODg3MS5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/tj7uWLR7X4G5WcIOkwHoKusPdtQ07o891Qek5WWKg4Y/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MTYy/NzEzLTE3MDIyMTU2/MzItODg3MS5qcGVn.jpeg", "cover_local": "covers_lena/29162713.jpg", "url": "https://www.discogs.com/release/29162713", "_idx": 20, "_source": "vinyl"}, {"artiste": "Michael Jackson", "titre": "Off The Wall", "année": 1979, "label": "Epic", "référence": "88875189421", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue, Stereo", "genre": "Funk / Soul, Pop", "styles": "Disco, Soul, Funk, Ballad", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/GOSr0bktXxk0Y_Ap3ZhjliyDb72TUq8BP2CfEqFtXxI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyNDE0/NDA2LTE3MzQxNzM3/NjUtNjUwNy5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/6XxNy82Ky5OPhL2dmzQ4cxDZ-hNt7Oo9EMjCwAyx_-g/rs:fit/g:sm/q:90/h:600/w:592/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyNDE0/NDA2LTE3MzQxNzM3/NjUtNjUwNy5qcGVn.jpeg", "cover_local": "covers_lena/32414406.jpg", "url": "https://www.discogs.com/release/32414406", "_idx": 21, "_source": "vinyl"}, {"artiste": "Michael Jackson", "titre": "Thriller", "année": 1982, "label": "Epic", "référence": "EPC 85930", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Stereo", "genre": "Rock, Funk / Soul, Pop", "styles": "Disco, Funk, Contemporary R&B, Pop Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/2WoEJiedf91zLbCvAUOC7sxAhfhRe0pLN0mXeWSbl6w/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1Mjk0/Ni0xNjk3MjM4NTc0/LTU0MTYuanBlZw.jpeg", "pochette_url": "https://i.discogs.com/oIiW0n5KLcQHcczSvyHig3bnBNxK33SBftIitf2NIPA/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1Mjk0/Ni0xNjk3MjM4NTc0/LTU0MTYuanBlZw.jpeg", "cover_local": "covers_lena/152946.jpg", "url": "https://www.discogs.com/release/152946", "_idx": 22, "_source": "vinyl"}, {"artiste": "Pink Floyd", "titre": "Meddle", "année": 1971, "label": "Pink Floyd Records", "référence": "PFRLP6", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue, Remastered, Stereo", "genre": "Rock", "styles": "Psychedelic Rock, Prog Rock, Experimental", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/oKH0bPT3v1qW-dUHc60SNQEYztGXHd3md9t3F_viUUQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkwNjM5/MDgtMTQ3NDY1ODM3/Ni05MzkzLmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/jT038nTOeosPd-2OCet_r_HC1kpZl0KEmS2aswPWywE/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkwNjM5/MDgtMTQ3NDY1ODM3/Ni05MzkzLmpwZWc.jpeg", "cover_local": "covers_lena/9063908.jpg", "url": "https://www.discogs.com/release/9063908", "_idx": 23, "_source": "vinyl"}, {"artiste": "Pink Floyd", "titre": "The Dark Side Of The Moon", "année": 1973, "label": "Harvest", "référence": "SMAS-11163", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album", "genre": "Rock", "styles": "Prog Rock, Psychedelic Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/qJqmtahwwCq6Re_vq-O0SIrGZVjWLrqg_1FbP9ANLWM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NzEw/NC0xNDcyNTcyOTMx/LTUxMDQuanBlZw.jpeg", "pochette_url": "https://i.discogs.com/mMxJHZMv_EUMgDso6PMI1HKsHHntkdG2ULQ2KW-1vHc/rs:fit/g:sm/q:90/h:576/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2NzEw/NC0xNDcyNTcyOTMx/LTUxMDQuanBlZw.jpeg", "cover_local": "covers_lena/367104.jpg", "url": "https://www.discogs.com/release/367104", "_idx": 24, "_source": "vinyl"}, {"artiste": "Pink Floyd", "titre": "The Wall", "année": 1979, "label": "Pink Floyd Records", "référence": "PFRLP11", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Reissue, Remastered", "genre": "Rock", "styles": "Art Rock, Prog Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/kzMMJS9bahfzUNAZojvLfBbIDFiFdIh7ONkoMLjSmOw/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5NTc3/MjktMTQ3NzIzNzMy/Ni04Nzg3LmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/o5B1ExlTGbrs0UC8BkCdSVt4XIOhxphrKQpDoiiZJAE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5NTc3/MjktMTQ3NzIzNzMy/Ni04Nzg3LmpwZWc.jpeg", "cover_local": "covers_lena/8957729.jpg", "url": "https://www.discogs.com/release/8957729", "_idx": 25, "_source": "vinyl"}, {"artiste": "The Police", "titre": "Outlandos D'Amour", "année": 1978, "label": "A&M Records", "référence": "AMLH 68502", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Stereo", "genre": "Rock", "styles": "New Wave", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/_LRrOrmz-8MUmKUvzS4REEmklqUvo44Rksm1pGbnWFY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc5MzU5/My0xMjAxMTI4NDMw/LmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/48tIE-vs3yKs-YGIgeF1CKIYDrGwCEgGTGfMEIL32d4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc5MzU5/My0xMjAxMTI4NDMw/LmpwZWc.jpeg", "cover_local": "covers_lena/793593.jpg", "url": "https://www.discogs.com/release/793593", "_idx": 26, "_source": "vinyl"}, {"artiste": "Prince And The Revolution", "titre": "Purple Rain", "année": 1984, "label": "Warner Bros. Records", "référence": "925 110-1", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue, Stereo", "genre": "Rock, Funk / Soul, Pop, Stage & Screen", "styles": "Funk, Minneapolis Sound, Pop Rock, Soundtrack", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/_5aUR7SZx0RtEcYQSz1nw8BYFIWlY4l5QCb2jWRm_Ls/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1NjUw/OTY3LTE2NzI3NTE4/MjAtMTcwOC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/oLqEZsJ1KgEc9c1NbZDmhyUfb-L5VJqBFe9JQ62pxaw/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1NjUw/OTY3LTE2NzI3NTE4/MjAtMTcwOC5qcGVn.jpeg", "cover_local": "covers_lena/25650967.jpg", "url": "https://www.discogs.com/release/25650967", "_idx": 27, "_source": "vinyl"}, {"artiste": "Pyotr Ilyich Tchaikovsky", "titre": "Les Chefs D'Œuvres De = The Masterpieces Of Pyotr Ilitch Tchaikovsky", "année": 2020, "label": "Wagram Music", "référence": "3375406", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Compilation", "genre": "Classical", "styles": "Romantic", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/bvK_dunS_v9Yq6Tnz3gevTZBle9hW3IWsIFajE9EuXc/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4Mzk1/MzgzLTE2MTkwMjEw/OTItNzYyNi5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/OJk_kUfUW2VG7bRKZ1mV_amOBtIkcBtUvKEoeSV2bBE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4Mzk1/MzgzLTE2MTkwMjEw/OTItNzYyNi5qcGVn.jpeg", "cover_local": "covers_lena/18395383.jpg", "url": "https://www.discogs.com/release/18395383", "_idx": 28, "_source": "vinyl"}, {"artiste": "Queen", "titre": "A Night At The Opera", "année": 1975, "label": "Hollywood Records", "référence": "D000262001", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue, Remastered", "genre": "Rock", "styles": "Hard Rock, Pop Rock, Classic Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/noLRINidW_6v-iSEKCJLs9JdtvD3HBnvC5JGqVufTrE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNzA4/ODUtMTQxNzYzMTIw/MC0xNzg2LmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/vzcIT3z-LQJDvV7ypdky0vL_wPXnxjPhAjgfzmrhRRY/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNzA4/ODUtMTQxNzYzMTIw/MC0xNzg2LmpwZWc.jpeg", "cover_local": "covers_lena/2170885.jpg", "url": "https://www.discogs.com/release/2170885", "_idx": 29, "_source": "vinyl"}, {"artiste": "Shirley Bassey", "titre": "I (Who Have Nothing)", "année": 1963, "label": "Columbia", "référence": "ESRF 1465", "format": "Vinyl", "quantité": 1, "descriptions": "7\", 45 RPM, EP", "genre": "Jazz", "styles": "Easy Listening", "note": 0, "date_ajout": "2026-06-27", "pochette_thumb": "https://i.discogs.com/v3ax0dIUcSSTgmBfrkXhKXiPT4sGiZH6nOpIkCM66sM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3OTg5/MDItMTUwMzE1MTI4/Ni04MTQ5LmpwZWc.jpeg", "pochette_url": "https://i.discogs.com/_lIek9f7yQGNN1tP99hzEHvlvNP5PHkZdpJwDUCMjp4/rs:fit/g:sm/q:90/h:600/w:598/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3OTg5/MDItMTUwMzE1MTI4/Ni04MTQ5LmpwZWc.jpeg", "cover_local": "covers_lena/3798902.jpg", "url": "https://www.discogs.com/release/3798902", "_idx": 30, "_source": "vinyl"}, {"artiste": "The Smiths", "titre": "The Queen Is Dead", "année": 1986, "label": "Plaza Independencia Música", "référence": "2564-66588-7", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album, Reissue", "genre": "Rock, Pop", "styles": "Indie Rock", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/Xz60tAw-uxoNsXlpqx8TKkGCZXBNx0zYsPBwk5OHxEg/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MzU3/ODYwLTE3MDkzOTQ2/NzEtNzYxMC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/ghnxyPSPCwUDQHkzBA5lZnAPka3Tcu6lWQldw6fhTZ8/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5MzU3/ODYwLTE3MDkzOTQ2/NzEtNzYxMC5qcGVn.jpeg", "cover_local": "covers_lena/29357860.jpg", "url": "https://www.discogs.com/release/29357860", "_idx": 31, "_source": "vinyl"}, {"artiste": "Tame Impala", "titre": "Currents", "année": 2015, "label": "Interscope Records", "référence": "B0023337-01", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album", "genre": "Rock, Pop", "styles": "Psychedelic Rock, Indie Rock, Indie Pop, Synth-pop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/psOikxA5cXQQs_9YrHRHfNQBS-j1Z576V8MbfkhmbHU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2Njk4/MDEwLTE2ODEwMTU0/MDQtODc4NS5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/VU5jthhYYUFteOaYnqZB0nXA4aupKJPtiiNwoIX1rww/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2Njk4/MDEwLTE2ODEwMTU0/MDQtODc4NS5qcGVn.jpeg", "cover_local": "covers_lena/26698010.jpg", "url": "https://www.discogs.com/release/26698010", "_idx": 32, "_source": "vinyl"}, {"artiste": "Tame Impala", "titre": "Deadbeat", "année": 2025, "label": "Columbia", "référence": "19802956001", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Stereo", "genre": "Electronic, Pop", "styles": "House, Dance-pop, Tech House, Alt-Pop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/6Zjztt8KEIw9wrePA4NvfwyxI34YjuYd9ExjezDiku4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NDA3/NDk1LTE3NjA3ODA4/MjgtNDU0My5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/0gly9BMBl2M7QfMKBPCMGmrpi2PK5XqEt2BtWcifmz0/rs:fit/g:sm/q:90/h:583/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NDA3/NDk1LTE3NjA3ODA4/MjgtNDU0My5qcGVn.jpeg", "cover_local": "covers_lena/35407495.jpg", "url": "https://www.discogs.com/release/35407495", "_idx": 33, "_source": "vinyl"}, {"artiste": "Tame Impala", "titre": "The Slow Rush", "année": 2020, "label": "Island Records", "référence": "7757956", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album", "genre": "Electronic, Rock, Pop", "styles": "Synth-pop, Psychedelic Rock, Soft Rock, Indie Pop, Indie Rock", "note": 0, "date_ajout": "2026-05-28", "pochette_thumb": "https://i.discogs.com/9YRh3s3mhnxhS1Zd11IsL46Io7DpRqpAyfNl5BQHFQM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NzYx/ODQ0LTE2NjA5MDk3/MTYtOTk2NS5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/q0X_q3DrfMQ1IfU4tSAYLj92sowlfiUAZGh0m1_4a_w/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0NzYx/ODQ0LTE2NjA5MDk3/MTYtOTk2NS5qcGVn.jpeg", "cover_local": "covers_lena/14761844.jpg", "url": "https://www.discogs.com/release/14761844", "_idx": 34, "_source": "vinyl"}, {"artiste": "Théodora", "titre": "Mega BBL", "année": 2025, "label": "Universal Music France", "référence": "8801306", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album", "genre": "Hip Hop, Pop", "styles": "Indie Pop, Afrobeat, Contemporary R&B", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/3ODsfqcysOHSNmtpS_p_HMDVeI32sHgIDb1REA4cBR4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MDgz/MzM4LTE3NjczNzg0/OTUtNDU1Ni5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/Ui7G2D7DPMnLyF0MII27Do8p5HwyuENMvFohIwo2PdM/rs:fit/g:sm/q:90/h:590/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MDgz/MzM4LTE3NjczNzg0/OTUtNDU1Ni5qcGVn.jpeg", "cover_local": "covers_lena/36083338.jpg", "url": "https://www.discogs.com/release/36083338", "_idx": 35, "_source": "vinyl"}, {"artiste": "Tyler, The Creator", "titre": "Chromakopia", "année": 2024, "label": "Columbia", "référence": "19802926461", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Deluxe Edition, Reissue, Stereo", "genre": "Hip Hop, Jazz, Funk / Soul", "styles": "Neo Soul, Contemporary R&B, Experimental, Hardcore Hip-Hop, Jazzy Hip-Hop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/FThPOScib6ys3_HIj2A0XxKmewx6Iqz5n4j8rneZeRM/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NTE4/OTc1LTE3Njc3OTM2/MDMtNTgzNS5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/oKxiSvtZs1x-cEcRU9e9yS_ZLeiUwsKMpAKNkJbSkhQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1NTE4/OTc1LTE3Njc3OTM2/MDMtNTgzNS5qcGVn.jpeg", "cover_local": "covers_lena/35518975.jpg", "url": "https://www.discogs.com/release/35518975", "_idx": 36, "_source": "vinyl"}, {"artiste": "Tyler, The Creator", "titre": "Igor", "année": 2019, "label": "Columbia", "référence": "19075965221", "format": "Vinyl", "quantité": 1, "descriptions": "LP, Album", "genre": "Hip Hop, Funk / Soul", "styles": "Contemporary R&B, Neo Soul", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/cZwS6IBTwYAEY80W11Fd5DLjAf7q7uNI9m-gJw5etJs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MjE1/NjgzLTE3MzE3MDc3/NDgtMTk0Ni5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/_xo94Vv8X5amfpirg4wncr-BnboID1TjXWEMUEy8OAU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MjE1/NjgzLTE3MzE3MDc3/NDgtMTk0Ni5qcGVn.jpeg", "cover_local": "covers_lena/14215683.jpg", "url": "https://www.discogs.com/release/14215683", "_idx": 37, "_source": "vinyl"}, {"artiste": "Various", "titre": "Grease (The Original Soundtrack From The Motion Picture)", "année": 1978, "label": "Polydor", "référence": "6772972", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Reissue, Stereo", "genre": "Rock, Pop, Stage & Screen", "styles": "Musical, Doo Wop, Rock & Roll", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/IwB9o7FVsL14RdXSFFOMQq4byJNkmUANl8kPRnaDN-o/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNDI3/MDQ3LTE1MzU3NTE2/NzEtODQ1OC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/QYEN1POpadMyK-9FOoNLbxH1RXh2lT8IKB7a2mjG-oA/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNDI3/MDQ3LTE1MzU3NTE2/NzEtODQ1OC5qcGVn.jpeg", "cover_local": "covers_lena/12427047.jpg", "url": "https://www.discogs.com/release/12427047", "_idx": 38, "_source": "vinyl"}, {"artiste": "Various", "titre": "Saturday Night Fever (The Original Movie Sound Track)", "année": 1977, "label": "RSO", "référence": "RS-2-4001", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Compilation, Repress", "genre": "Funk / Soul, Pop, Stage & Screen", "styles": "Soundtrack, Disco", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/-4ZZ8acu8RcrXtBV6Oaupqw4UIBgdhFV96Jiz7_cFqQ/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2MzI3/NDgtMTI5NDE4NjA3/MS5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/frGaqDeT-Q26Tj0STUbumJqI3WXRC-dMUhQ41FPAvQ0/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2MzI3/NDgtMTI5NDE4NjA3/MS5qcGVn.jpeg", "cover_local": "covers_lena/2632748.jpg", "url": "https://www.discogs.com/release/2632748", "_idx": 39, "_source": "vinyl"}, {"artiste": "The Weeknd", "titre": "After Hours", "année": 2020, "label": "XO", "référence": "00602508818400", "format": "Vinyl", "quantité": 2, "descriptions": "LP, Album, Stereo", "genre": "Electronic, Hip Hop, Funk / Soul, Pop", "styles": "Contemporary R&B, Synthwave, New Wave, Pop Rap, Disco, Synth-pop", "note": 0, "date_ajout": "2026-05-22", "pochette_thumb": "https://i.discogs.com/JGNJnQj7VL2JBIBnEMrkO55Ku18jpNZr1jvqUqEj2N4/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1OTYx/MTU4LTE2MDEwNTUx/ODktNjA4OC5qcGVn.jpeg", "pochette_url": "https://i.discogs.com/jZi50yA_Y7O_EIWSvxhfkH-zhjLoqSaPEuAwNcb35N0/rs:fit/g:sm/q:90/h:600/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1OTYx/MTU4LTE2MDEwNTUx/ODktNjA4OC5qcGVn.jpeg", "cover_local": "covers_lena/15961158.jpg", "url": "https://www.discogs.com/release/15961158", "_idx": 40, "_source": "vinyl"}];
+const DATA_MUSIC = [];
+const COMMON_ARTISTS = new Set([]);
+
+// ── State ──
+let currentSource = 'vinyl';
+let DATA = DATA_VINYL;
+let view = 'grid';
+let filtered = [];
+
+// ── DOM ──
+const searchEl  = document.getElementById('search');
+const genreEl   = document.getElementById('filter-genre');
+const styleEl   = document.getElementById('filter-style');
+const styleWrap = document.getElementById('style-wrap');
+const yearMinEl = document.getElementById('year-min');
+const yearMaxEl = document.getElementById('year-max');
+const noteEl    = document.getElementById('filter-note');
+const sortEl    = document.getElementById('sort');
+const collEl    = document.getElementById('collection');
+const countEl   = document.getElementById('count');
+const totalEl   = document.getElementById('total-count');
+const emptyEl   = document.getElementById('empty');
+const overlayEl = document.getElementById('modal-overlay');
+
+// ── Helpers ──
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function yearDisplay(y) { return y ? y : '—'; }
+
+function badgeOther(r) {
+  if (!COMMON_ARTISTS.has(r.artiste.toLowerCase())) return '';
+  const label = r._source === 'vinyl' ? '🎵 Apple Music' : '💿 Vinyle';
+  return `<span class="badge-other" title="Aussi dans : ${label}">${r._source === 'vinyl' ? '🎵' : '💿'}</span>`;
+}
+
+// ── Init filters ──
+function initFilters() {
+  const years  = DATA.map(r => r.année).filter(Boolean);
+  const absMin = years.length ? Math.min(...years) : 1900;
+  const absMax = years.length ? Math.max(...years) : new Date().getFullYear();
+  yearMinEl.placeholder = absMin;
+  yearMaxEl.placeholder = absMax;
+  yearMinEl.min = absMin; yearMinEl.max = absMax;
+  yearMaxEl.min = absMin; yearMaxEl.max = absMax;
+
+  [genreEl, styleEl].forEach(el => { while (el.options.length > 1) el.remove(1); });
+
+  const genres = [...new Set(DATA.map(r => r.genre).filter(Boolean))].sort();
+  genres.forEach(g => genreEl.insertAdjacentHTML('beforeend', `<option value="${esc(g)}">${esc(g)}</option>`));
+
+  const isVinyl = currentSource === 'vinyl';
+  styleWrap.style.display = isVinyl ? '' : 'none';
+  if (isVinyl) {
+    const styles = [...new Set(DATA.flatMap(r => r.styles ? r.styles.split(', ') : []).filter(Boolean))].sort();
+    styles.forEach(s => styleEl.insertAdjacentHTML('beforeend', `<option value="${esc(s)}">${esc(s)}</option>`));
+  }
+
+  const unit = currentSource === 'vinyl' ? 'vinyle' : 'album';
+  totalEl.textContent = DATA.length + ' ' + unit + (DATA.length > 1 ? 's' : '');
+}
+
+// ── Switch collection ──
+function switchCollection(source) {
+  currentSource = source;
+  DATA = source === 'vinyl' ? DATA_VINYL : DATA_MUSIC;
+  document.getElementById('btn-vinyl').classList.toggle('active', source === 'vinyl');
+  document.getElementById('btn-music').classList.toggle('active', source === 'music');
+  searchEl.value = ''; genreEl.value = ''; styleEl.value = '';
+  yearMinEl.value = ''; yearMaxEl.value = '';
+  noteEl.value = '0'; sortEl.value = 'artiste-asc';
+  initFilters();
+  apply();
+}
+
+// ── Filter + sort ──
+function apply() {
+  const q       = searchEl.value.toLowerCase().trim();
+  const genre   = genreEl.value;
+  const style   = styleEl.value;
+  const yMin    = parseInt(yearMinEl.value) || 0;
+  const yMax    = parseInt(yearMaxEl.value) || 9999;
+  const noteMin = parseInt(noteEl.value) || 0;
+  const sort    = sortEl.value;
+
+  filtered = DATA.filter(r => {
+    if (q) {
+      const hay = [r.artiste, r.titre, r.label, r.styles, r.descriptions, r.référence].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    if (genre && r.genre !== genre) return false;
+    if (style && !(r.styles || '').split(', ').includes(style)) return false;
+    if (yMin   && r.année && r.année < yMin)      return false;
+    if (yMax < 9999 && r.année && r.année > yMax) return false;
+    if (noteMin > 0 && r.note < noteMin)          return false;
+    return true;
+  });
+
+  filtered.sort((a, b) => {
+    switch (sort) {
+      case 'artiste-asc':  return a.artiste.localeCompare(b.artiste, 'fr');
+      case 'artiste-desc': return b.artiste.localeCompare(a.artiste, 'fr');
+      case 'titre':        return a.titre.localeCompare(b.titre, 'fr');
+      case 'annee-asc':    return (a.année || 9999) - (b.année || 9999);
+      case 'annee-desc':   return (b.année || 0) - (a.année || 0);
+      case 'date-desc':    return (b.date_ajout || '').localeCompare(a.date_ajout || '');
+      case 'note-desc':    return b.note - a.note;
+    }
+    return 0;
+  });
+
+  render();
+}
+
+// ── Render ──
+function render() {
+  const n    = filtered.length;
+  const unit = currentSource === 'vinyl' ? 'vinyle' : 'album';
+  countEl.textContent = n + ' / ' + DATA.length + ' ' + unit + (DATA.length > 1 ? 's' : '');
+  emptyEl.style.display = n === 0 ? 'block' : 'none';
+  collEl.style.display  = n === 0 ? 'none'  : '';
+  if (view === 'grid') renderGrid();
+  else                 renderList();
+  lazyLoad();
+}
+
+function renderGrid() {
+  collEl.className = '';
+  collEl.innerHTML = filtered.map(r => {
+    const isMusic = r._source === 'music';
+    const placeholder = isMusic ? '🎵' : '💿';
+    const img = r.cover_local
+      ? `<img class="lazy" data-src="${esc(r.cover_local)}" alt="">`
+      : `<div class="no-cover">${placeholder}</div>`;
+    const artistClass = isMusic ? 'card-artist music' : 'card-artist';
+    return `
+    <div class="card" onclick="openModal(${r._idx})">
+      <div class="cover-wrap">${img}</div>
+      <div class="card-body">
+        <div class="${artistClass}">${esc(r.artiste)}${badgeOther(r)}</div>
+        <div class="card-title">${esc(r.titre)}</div>
+        <div class="card-meta">
+          <span>${yearDisplay(r.année)}</span>
+          <span class="stars">${r.note ? '★'.repeat(r.note) : ''}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderList() {
+  collEl.className = 'list-view';
+  const isVinyl = currentSource === 'vinyl';
+  const rows = filtered.map(r => {
+    const isMusic = r._source === 'music';
+    const placeholder = isMusic ? '🎵' : '💿';
+    const thumb = r.cover_local
+      ? `<img class="list-thumb lazy" data-src="${esc(r.cover_local)}" alt="">`
+      : `<div class="list-thumb-placeholder">${placeholder}</div>`;
+    const artistClass = isMusic ? 'col-artist music' : 'col-artist';
+    const extraCol = isVinyl
+      ? `<td>${(r.styles || '').split(', ').filter(Boolean).map(s => `<span class="tag">${esc(s)}</span>`).join('')}</td>`
+      : `<td style="color:var(--muted);font-size:0.8rem">${r.nb_titres ? r.nb_titres + ' titre' + (r.nb_titres > 1 ? 's' : '') : '—'}</td>`;
+    return `
+    <tr onclick="openModal(${r._idx})">
+      <td>${thumb}</td>
+      <td class="${artistClass}">${esc(r.artiste)}${badgeOther(r)}</td>
+      <td>${esc(r.titre)}</td>
+      <td>${yearDisplay(r.année)}</td>
+      <td>${esc(r.genre || '—')}</td>
+      ${extraCol}
+      <td>${r.note ? '<span class="stars">' + '★'.repeat(r.note) + '</span>' : '<span style="color:var(--muted)">—</span>'}</td>
+    </tr>`;
+  }).join('');
+
+  const extraHeader = isVinyl ? '<th>Styles</th>' : '<th>Titres</th>';
+  collEl.innerHTML = `
+  <table>
+    <thead><tr>
+      <th></th><th>Artiste</th><th>Titre</th><th>Année</th><th>Genre</th>
+      ${extraHeader}<th>Note</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// ── Lazy loading ──
+let observer;
+function lazyLoad() {
+  if (observer) observer.disconnect();
+  observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const img = e.target;
+        img.src = img.dataset.src;
+        img.onload = () => img.classList.add('loaded');
+        img.onerror = () => { img.style.display='none'; };
+        delete img.dataset.src;
+        observer.unobserve(img);
+      }
+    });
+  }, { rootMargin: '300px' });
+  document.querySelectorAll('img.lazy').forEach(img => observer.observe(img));
+}
+
+// ── Modal ──
+function openModal(idx) {
+  const r = DATA[idx];
+  const isVinyl = r._source === 'vinyl';
+
+  const artistEl = document.getElementById('modal-artist');
+  artistEl.textContent = r.artiste;
+  artistEl.className = 'modal-artist ' + r._source;
+
+  document.getElementById('modal-title').textContent = r.titre;
+
+  const imgEl = document.getElementById('modal-cover-img');
+  const phEl  = document.getElementById('modal-cover-placeholder');
+  if (r.cover_local) {
+    imgEl.src = r.cover_local;
+    imgEl.style.display = 'block';
+    phEl.style.display  = 'none';
+    imgEl.onerror = () => { imgEl.style.display='none'; phEl.style.display='flex'; };
+  } else {
+    imgEl.style.display = 'none';
+    phEl.style.display  = 'flex';
+    phEl.textContent = isVinyl ? '💿' : '🎵';
+  }
+
+  const commonNote = COMMON_ARTISTS.has(r.artiste.toLowerCase())
+    ? [['', isVinyl ? '🎵 Aussi dans Apple Music' : '💿 Aussi en vinyle']]
+    : [];
+
+  let rows;
+  if (isVinyl) {
+    rows = [
+      ['Année',     r.année || '—'],
+      ['Label',     r.label || '—'],
+      ['Référence', r.référence || '—'],
+      ['Format',    [r.format, r.descriptions].filter(Boolean).join(' · ') || '—'],
+      ['Quantité',  r.quantité > 1 ? r.quantité + ' disques' : '1 disque'],
+      ['Genre',     r.genre || '—'],
+      ['Styles',    r.styles || '—'],
+      ['Note',      r.note ? '★'.repeat(r.note) + '☆'.repeat(5 - r.note) + ` (${r.note}/5)` : '—'],
+      ['Ajouté le', r.date_ajout || '—'],
+      ...commonNote,
+    ];
+  } else {
+    rows = [
+      ['Année',     r.année || '—'],
+      ['Genre',     r.genre || '—'],
+      ['Titres',    r.nb_titres ? r.nb_titres + ' titre' + (r.nb_titres > 1 ? 's' : '') : '—'],
+      ['Note',      r.note ? '★'.repeat(r.note) + '☆'.repeat(5 - r.note) + ` (${r.note}/5)` : '—'],
+      ['Ajouté le', r.date_ajout || '—'],
+      ...commonNote,
+    ];
+  }
+
+  document.getElementById('modal-table').innerHTML = rows.map(([k, v]) =>
+    `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`
+  ).join('');
+
+  const link = document.getElementById('modal-link');
+  if (isVinyl && r.url) {
+    link.href = r.url;
+    link.style.display = 'inline-block';
+  } else {
+    link.style.display = 'none';
+  }
+
+  overlayEl.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlayEl.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+overlayEl.addEventListener('click', e => { if (e.target === overlayEl) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── View toggle ──
+document.getElementById('btn-grid').addEventListener('click', () => {
+  view = 'grid';
+  document.getElementById('btn-grid').classList.add('active');
+  document.getElementById('btn-list').classList.remove('active');
+  render();
+});
+document.getElementById('btn-list').addEventListener('click', () => {
+  view = 'list';
+  document.getElementById('btn-list').classList.add('active');
+  document.getElementById('btn-grid').classList.remove('active');
+  render();
+});
+
+// ── Switcher ──
+document.getElementById('btn-vinyl').addEventListener('click', () => switchCollection('vinyl'));
+document.getElementById('btn-music').addEventListener('click', () => switchCollection('music'));
+
+// ── Reset ──
+document.getElementById('btn-reset').addEventListener('click', () => {
+  searchEl.value = ''; genreEl.value = ''; styleEl.value = '';
+  yearMinEl.value = ''; yearMaxEl.value = '';
+  noteEl.value = '0'; sortEl.value = 'artiste-asc';
+  apply();
+});
+
+// ── Event listeners ──
+let debounce;
+searchEl.addEventListener('input', () => {
+  clearTimeout(debounce);
+  debounce = setTimeout(apply, 280);
+});
+[genreEl, styleEl, yearMinEl, yearMaxEl, noteEl, sortEl].forEach(el =>
+  el.addEventListener('change', apply)
+);
+
+// ── Boot ──
+initFilters();
+apply();
+</script>
+</body>
+</html>
