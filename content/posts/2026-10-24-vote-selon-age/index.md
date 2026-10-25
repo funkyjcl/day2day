@@ -18,11 +18,9 @@ En regroupant en deux blocs, ça donne ça :
 
 ![Moins de 50 ans et 50 ans et plus : population, votants et abstention](vote-age-2-tranches.png)
 
-Les 50 ans et plus sont à peine majoritaires dans la population. Dans les urnes, ils font six électeurs sur dix.
+Les 50 ans et plus sont à peine majoritaires dans la population. Dans les urnes, ils font six électeurs sur dix. 
 
-Ce qui compte, ce n'est pas l'écart entre les deux groupes, c'est l'écart de chacun à la moyenne. La participation moyenne est de 66 %. Les moins de 50 ans votent à 0,87 fois la moyenne, les plus de 50 ans à 1,12 fois. Leurs poids sont multipliés d'autant : 48 × 0,87 ≈ 42 et 52 × 1,12 ≈ 58. Les dix-sept points se partagent de part et d'autre du milieu. Et l'abstention grossit visuellement l'effet : 43 % contre 26 %, ça a l'air énorme. Mais en participation, 57 % contre 74 %, c'est déjà moins spectaculaire.
-
-Bref, si tu as moins de 35 ans et que tu trouves que la politique ne te ressemble pas, il y a une piste assez simple. Elle tient dans une enveloppe.
+Donc voilà, si tu as moins de 35 ans et que tu trouves que la politique ne te ressemble pas, il y a une piste assez simple. Elle tient dans une enveloppe.
 
 ---
 
