@@ -1451,6 +1451,47 @@
       "generated_at": "2026-11-11T18:10:25.710Z",
       "reviewed": false
     },
+    "1305561": {
+      "artist": "Touré Kunda",
+      "title": "Casamance Au Clair De Lune",
+      "year": 1984,
+      "status": "ok",
+      "text": "Casamance, c'est la région du sud du Sénégal d'où vient cette fratrie, alors installée en France et enregistrée par le label parisien Celluloid. Le disque tient dans ce va-et-vient : percussions et chant en langue soninké d'un côté, studio européen de l'autre. À l'écoute, suivre la basse, qui mène les montées.",
+      "basis": "knowledge",
+      "facts": [
+        {
+          "claim": "La Casamance est la région du sud du Sénégal dont le groupe est originaire",
+          "from": "knowledge",
+          "quote": ""
+        },
+        {
+          "claim": "Touré Kunda est une fratrie sénégalaise installée en France à cette époque",
+          "from": "knowledge",
+          "quote": ""
+        },
+        {
+          "claim": "Celluloid est un label parisien",
+          "from": "knowledge",
+          "quote": ""
+        },
+        {
+          "claim": "Le groupe chante notamment en soninké",
+          "from": "knowledge",
+          "quote": ""
+        }
+      ],
+      "flags": [
+        "fait hors source : La Casamance est la région du sud du Sénégal dont le groupe est originaire",
+        "fait hors source : Touré Kunda est une fratrie sénégalaise installée en France à cette époque",
+        "fait hors source : Celluloid est un label parisien",
+        "fait hors source : Le groupe chante notamment en soninké",
+        "noms propres absents de la source : Sénégal, France"
+      ],
+      "source_url": null,
+      "model": "claude-opus-5",
+      "generated_at": "2026-11-11T19:33:06.415Z",
+      "reviewed": false
+    },
     "1323196": {
       "artist": "Youssou N'Dour",
       "title": "Immigrés / Bitim Rew",
@@ -2137,6 +2178,28 @@
       "source_url": "https://fr.wikipedia.org/wiki/Mother's_Milk",
       "model": "claude-opus-5",
       "generated_at": "2026-11-11T18:10:25.546Z",
+      "reviewed": false
+    },
+    "1848822": {
+      "artist": "Georges Brassens",
+      "title": "IX",
+      "year": 1966,
+      "status": "ok",
+      "text": "Peu d'habillage ici : la chanson tient sur la guitare, la contrebasse et le texte. À l'écoute, suivre la façon dont la phrase parlée se cale sur la mesure, les rimes qui tombent sur le temps faible, et la basse qui marche sans jamais tirer la couverture. Du français qui swingue à voix nue.",
+      "basis": "knowledge",
+      "facts": [
+        {
+          "claim": "L'accompagnement repose sur guitare et contrebasse",
+          "from": "knowledge",
+          "quote": ""
+        }
+      ],
+      "flags": [
+        "fait hors source : L'accompagnement repose sur guitare et contrebasse"
+      ],
+      "source_url": null,
+      "model": "claude-opus-5",
+      "generated_at": "2026-11-11T19:33:06.420Z",
       "reviewed": false
     },
     "1849291": {
@@ -3266,6 +3329,35 @@
       "source_url": null,
       "model": "claude-opus-5",
       "generated_at": "2026-11-11T18:10:25.715Z",
+      "reviewed": false
+    },
+    "3193142": {
+      "artist": "Milt Buckner",
+      "title": "Rockin' Again",
+      "year": 1972,
+      "status": "ok",
+      "text": "Orgue Hammond et jazz de vétéran, enregistré pour un label français qui documentait alors les anciens du swing. À l'oreille, suivre la main gauche qui tient la basse pendant que la droite avance en accords plaqués, tout le blocs d'accords de Buckner. Du blues lent, du tempo medium, rien de pressé.",
+      "basis": "knowledge",
+      "facts": [
+        {
+          "claim": "Black and Blue est un label français qui enregistrait les vétérans américains du jazz dans les années soixante-dix",
+          "from": "knowledge",
+          "quote": ""
+        },
+        {
+          "claim": "Milt Buckner joue de l'orgue Hammond et est connu pour son jeu en accords plaqués (locked hands)",
+          "from": "knowledge",
+          "quote": ""
+        }
+      ],
+      "flags": [
+        "fait hors source : Black and Blue est un label français qui enregistrait les vétérans américains du jazz dans les années soixante-dix",
+        "fait hors source : Milt Buckner joue de l'orgue Hammond et est connu pour son jeu en accords plaqués (locked hands)",
+        "noms propres absents de la source : Hammond"
+      ],
+      "source_url": null,
+      "model": "claude-opus-5",
+      "generated_at": "2026-11-11T19:33:06.421Z",
       "reviewed": false
     },
     "3237691": {
